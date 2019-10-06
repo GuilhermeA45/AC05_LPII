@@ -41,8 +41,9 @@ class Cliente():
         self._telefone = novo_telefone
 
     def get_email(self) -> str:
-        """Acessor do atribut09o Email."""
+        """Acessor do atributo Email."""
         return self._email
+        
 
     def set_email(self, novo_email: str) -> None:
         """
@@ -52,7 +53,8 @@ class Cliente():
         self.novo_email = list(novo_email)
         if '@' not in self.novo_email:
             raise ValueError('e-mail invalido, tente novamente.')
-        self._email = " ".join(self.novo_email)
+        self._email = "".join(self.novo_email)
+
 
 
 class Banco():
@@ -100,25 +102,32 @@ class Conta():
 
     def __init__(self, clientes: List[Cliente], numero_conta: int,
                  saldo_inicial: Number):
-        pass
+        self._clientes = clientes
+        self._numero_da_conta = numero_conta
+        self._saldo_inicial = saldo_inicial
+        self._extrato = []
+        if self._saldo_inicial < 0:
+            raise ValueError('Não é possivel abrir uma conta com saldo negativo.')
 
     def get_clientes(self) -> List[Cliente]:
         '''
         Acessor para o atributo Clientes
         '''
-        pass
+        return self._clientes
+        
 
     def get_saldo(self) -> Number:
         '''
         Acessor para o Atributo Saldo
         '''
-        pass
+        return self._saldo_inicial
 
     def get_numero(self) -> int:
         '''
         Acessor para o atributo Numero
         '''
-        pass
+        return self._numero_da_conta
+
 
     def saque(self, valor: Number) -> None:
         '''
@@ -126,17 +135,35 @@ class Conta():
         Caso o valor do saque seja maior que o saldo da conta,
         deve retornar um ValueError, e não efetuar o saque
         '''
-        pass
+        self.valor = valor
+        if self.valor > 0 and self.valor <= self._saldo_inicial:
+            self._saldo_inicial = self._saldo_inicial - self.valor
+            self._saldo = "saldo", self._saldo_inicial
+            saque = ("saque", self.valor)
+            self._extrato.append(saque)
+        raise ValueError('Não foi possivel efetuar a operação')
+
+
 
     def deposito(self, valor: Number):
         '''
         Método depósito da classe Conta, operação deve aparecer no extrato
         '''
-        pass
+        self.valor = valor
+        self._saldo_inicial = self._saldo_inicial + self.valor
+        deposito = ("deposito", self.valor)
+        self._extrato.append(deposito)
+
 
     def extrato(self) -> List[Dict[str, Number]]:
         '''
         Retorna uma lista com as operações (Tuplas) executadas na Conta
         '''
-        pass
+        extrato = self._extrato
+        return extrato
+        
+        
+
+        
+
 
