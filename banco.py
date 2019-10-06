@@ -50,7 +50,7 @@ class Cliente():
         gera um ValueError.
         """
         self.novo_email = list(novo_email)
-        if '@' is not in self.novo_email:
+        if '@' not in self.novo_email:
             raise ValueError('e-mail invalido, tente novamente.')
         self._email = " ".join(self.novo_email)
 
