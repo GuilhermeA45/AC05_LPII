@@ -38,7 +38,7 @@ class Cliente():
         """
         if type(novo_telefone) is not int:
             raise TypeError("Telefone deve ser um número inteiro sem o hifen")
-        self._nome = novo_telefone
+        self._telefone = novo_telefone
 
     def get_email(self) -> str:
         """Acessor do atribut09o Email."""
