@@ -21,8 +21,6 @@ class Cliente():
         self._nome = nome
         self._telefone = telefone
         self._email = email
-        
-            
 
     def get_nome(self) -> str:
         """Acessor do atributo Nome."""
@@ -44,7 +42,6 @@ class Cliente():
     def get_email(self) -> str:
         """Acessor do atributo Email."""
         return self._email
-        
 
     def set_email(self, novo_email: str) -> None:
         """
@@ -55,7 +52,6 @@ class Cliente():
         if '@' not in self.novo_email:
             raise ValueError('e-mail invalido, tente novamente.')
         self._email = "".join(self.novo_email)
-
 
 
 class Banco():
@@ -74,8 +70,6 @@ class Banco():
         self._contas = []
         self._numero_conta = 0
 
-        
-
     def get_nome(self) -> str:
         """Acessor do Atributo Nome."""
         return self._nome_banco
@@ -88,13 +82,10 @@ class Banco():
         """
         saldo_inicial = saldo_ini
         if saldo_inicial < 0:
-            raise ValueError('Não é possivel abrir uma conta com saldo abaixo de 0')
+            raise ValueError('Saldo abaixo de 0')
         self._numero_conta += 1
         nova_conta = Conta(clientes, self._numero_conta, saldo_ini)
         self._contas.append(nova_conta)
-        
-        
-
 
     def lista_contas(self) -> List['Conta']:
         """Retorna a lista com todas as contas do banco."""
@@ -121,7 +112,7 @@ class Conta():
         self._saldo_inicial = saldo_inicial
         self._extrato = []
         if self._saldo_inicial < 0:
-            raise ValueError('Não é possivel abrir uma conta com saldo negativo.')
+            raise ValueError('Saldo negativo.')
         self._extrato.append(('saldo_inicial', saldo_inicial))
 
     def get_clientes(self) -> List[Cliente]:
@@ -129,7 +120,6 @@ class Conta():
         Acessor para o atributo Clientes
         '''
         return self._clientes
-        
 
     def get_saldo(self) -> Number:
         '''
@@ -142,7 +132,6 @@ class Conta():
         Acessor para o atributo Numero
         '''
         return self._numero_da_conta
-
 
     def saque(self, valor: Number) -> None:
         '''
@@ -157,9 +146,6 @@ class Conta():
         saque = ("saque", self.valor)
         self._extrato.append(saque)
         return self._saldo_inicial
-        
-
-
 
     def deposito(self, valor: Number):
         '''
@@ -170,7 +156,6 @@ class Conta():
         deposito = ("deposito", self.valor)
         self._extrato.append(deposito)
         return self._saldo_inicial
-
 
     def extrato(self) -> List[Dict[str, Number]]:
         '''
@@ -186,5 +171,3 @@ if __name__ == '__main__':
     b.abre_conta([c], 100)
     ccs = b.lista_contas()
     print(ccs)
-        
-        
