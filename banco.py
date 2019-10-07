@@ -21,6 +21,8 @@ class Cliente():
         self._nome = nome
         self._telefone = telefone
         self._email = email
+        
+            
 
     def get_nome(self) -> str:
         """Acessor do atributo Nome."""
@@ -107,6 +109,7 @@ class Conta():
         self._extrato = []
         if self._saldo_inicial < 0:
             raise ValueError('Não é possivel abrir uma conta com saldo negativo.')
+        self._extrato.append(('saldo_inicial', saldo_inicial))
 
     def get_clientes(self) -> List[Cliente]:
         '''
@@ -135,10 +138,9 @@ class Conta():
         deve retornar um ValueError, e não efetuar o saque
         '''
         self.valor = valor
-        if self.valor < 0 or self.valor > self._saldo_inicial:
+        if self.valor > self._saldo_inicial:
             raise ValueError('Não foi possivel efetuar a operação')
         self._saldo_inicial = self._saldo_inicial - self.valor
-        self._saldo = "saldo", self._saldo_inicial
         saque = ("saque", self.valor)
         self._extrato.append(saque)
         return self._saldo_inicial
@@ -172,4 +174,5 @@ if __name__ == '__main__':
     print(conta.extrato())
     d = conta.deposito(200)
     print(conta.extrato())
+
     
