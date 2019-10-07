@@ -1,8 +1,8 @@
 # Linguagem de Programação II
 # AC05 ADS2D - Banco
 #
-# Alunos: aluno1.sobrenome@aluno.faculdadeimpacta.com.br
-#         aluno2.sobrenome@aluno.faculdadeimpacta.com.br
+# Alunos: guilherme.asantos@aluno.faculdadeimpacta.com.br
+#         guilherme.dalbuquerque@aluno.faculdadeimpacta.com.br
 
 from typing import Union, List, Dict
 
@@ -12,7 +12,6 @@ Number = Union[int, float]
 class Cliente():
     """
     Classe Cliente do Banco.
-
     possui os atributos: nome, telefone e email, todos privados
     caso o email não seja um email válido gera um ValueError,
     caso o telefone não seja um número gera um TypeError
@@ -22,6 +21,8 @@ class Cliente():
         self._nome = nome
         self._telefone = telefone
         self._email = email
+        
+            
 
     def get_nome(self) -> str:
         """Acessor do atributo Nome."""
@@ -69,11 +70,15 @@ class Banco():
     contas do banco
     """
     def __init__(self, nome: str):
-        pass
+        self._nome_banco = nome
+        self._contas = []
+        self._numero_conta = 0
+
+        
 
     def get_nome(self) -> str:
         """Acessor do Atributo Nome."""
-        pass
+        return self._nome_banco
 
     def abre_conta(self, clientes: List[Cliente], saldo_ini: Number) -> None:
         """
@@ -81,11 +86,20 @@ class Banco():
         e o saldo inicial.
         Caso o saldo inicial seja menor que 0 devolve um ValueError
         """
-        pass
+        saldo_inicial = saldo_ini
+        if saldo_inicial < 0:
+            raise ValueError('Não é possivel abrir uma conta com saldo abaixo de 0')
+        self._numero_conta += 1
+        nova_conta = Conta(clientes, self._numero_conta, saldo_ini)
+        self._contas.append(nova_conta)
+        
+        
+
 
     def lista_contas(self) -> List['Conta']:
         """Retorna a lista com todas as contas do banco."""
-        pass
+        contas = self._contas
+        return contas
 
 
 class Conta():
@@ -108,6 +122,7 @@ class Conta():
         self._extrato = []
         if self._saldo_inicial < 0:
             raise ValueError('Não é possivel abrir uma conta com saldo negativo.')
+        self._extrato.append(('saldo_inicial', saldo_inicial))
 
     def get_clientes(self) -> List[Cliente]:
         '''
@@ -136,12 +151,13 @@ class Conta():
         deve retornar um ValueError, e não efetuar o saque
         '''
         self.valor = valor
-        if self.valor > 0 and self.valor <= self._saldo_inicial:
-            self._saldo_inicial = self._saldo_inicial - self.valor
-            self._saldo = "saldo", self._saldo_inicial
-            saque = ("saque", self.valor)
-            self._extrato.append(saque)
-        raise ValueError('Não foi possivel efetuar a operação')
+        if self.valor > self._saldo_inicial:
+            raise ValueError('Não foi possivel efetuar a operação')
+        self._saldo_inicial = self._saldo_inicial - self.valor
+        saque = ("saque", self.valor)
+        self._extrato.append(saque)
+        return self._saldo_inicial
+        
 
 
 
@@ -153,6 +169,7 @@ class Conta():
         self._saldo_inicial = self._saldo_inicial + self.valor
         deposito = ("deposito", self.valor)
         self._extrato.append(deposito)
+        return self._saldo_inicial
 
 
     def extrato(self) -> List[Dict[str, Number]]:
@@ -161,9 +178,13 @@ class Conta():
         '''
         extrato = self._extrato
         return extrato
-        
-        
-
-        
 
 
+if __name__ == '__main__':
+    b = Banco('nome')
+    c = Cliente('nome', 99999999, 'email@mail.com')
+    b.abre_conta([c], 100)
+    ccs = b.lista_contas()
+    print(ccs)
+        
+        
